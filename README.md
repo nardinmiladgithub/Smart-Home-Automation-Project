@@ -28,10 +28,18 @@ on the LCD.
 
 # Hardware Components: 
 • Microcontroller: ATmega32 
+
 • Light Sensor: LDR  
+
 • Temperature Sensor: LM35 
+
 • Display: 16x2 LCD in 8-bit mode 
+
 • Motor Control: H-Bridge connected for motor speed control. 
+
 • LEDs
+
 • Flame Sensor
+
 • Buzzer: Activated during fire alert.
+
