@@ -1,0 +1,96 @@
+/*
+ * led.c
+ *
+ *  Created on: Oct 3, 2024
+ *      Author: Nardin
+ */
+
+#include "common_macros.h" /* For GET_BIT Macro */
+#include "led.h"
+#include "gpio.h"
+
+void LEDS_init(void)
+{
+	// Set the direction as output pins
+	GPIO_setupPinDirection(LED_RED_PORT_ID,LED_RED_PIN_ID,PIN_OUTPUT);
+	GPIO_setupPinDirection(LED_GREEN_PORT_ID,LED_GREEN_PIN_ID,PIN_OUTPUT);
+	GPIO_setupPinDirection(LED_BLUE_PORT_ID,LED_BLUE_PIN_ID,PIN_OUTPUT);
+
+	// Turn off all the LEDs
+#if(LED_CONNECTION_TYPE == POSITIVE_LOGIC)
+	GPIO_writePin(LED_RED_PORT_ID,LED_RED_PIN_ID,LOGIC_LOW);
+	GPIO_writePin(LED_GREEN_PORT_ID,LED_GREEN_PIN_ID,LOGIC_LOW);
+	GPIO_writePin(LED_BLUE_PORT_ID,LED_BLUE_PIN_ID,LOGIC_LOW);
+
+#elif(LED_CONNECTION_TYPE == NEGATIVE_LOGIC)
+	GPIO_writePin(LED_RED_PORT_ID,LED_RED_PIN_ID,LOGIC_HIGH);
+	GPIO_writePin(LED_GREEN_PORT_ID,LED_GREEN_PIN_ID,LOGIC_HIGH);
+	GPIO_writePin(LED_BLUE_PORT_ID,LED_BLUE_PIN_ID,LOGIC_HIGH);
+
+#endif
+}
+
+void LED_on(uint8 LED_ID)
+{
+#if(LED_CONNECTION_TYPE == POSITIVE_LOGIC)
+	switch(LED_ID)
+	{
+	case 1:
+		GPIO_writePin(LED_RED_PORT_ID,LED_RED_PIN_ID,LOGIC_HIGH);
+		break;
+	case 2:
+		GPIO_writePin(LED_GREEN_PORT_ID,LED_GREEN_PIN_ID,LOGIC_HIGH);
+		break;
+	case 3:
+		GPIO_writePin(LED_BLUE_PORT_ID,LED_BLUE_PIN_ID,LOGIC_HIGH);
+		break;
+	}
+
+
+#elif(LED_CONNECTION_TYPE == NEGATIVE_LOGIC)
+	switch(LED_ID)
+		{
+		case 1:
+			GPIO_writePin(LED_RED_PORT_ID,LED_RED_PIN_ID,LOGIC_LOW);
+			break;
+		case 2:
+			GPIO_writePin(LED_GREEN_PORT_ID,LED_GREEN_PIN_ID,LOGIC_LOW);
+			break;
+		case 3:
+			GPIO_writePin(LED_BLUE_PORT_ID,LED_BLUE_PIN_ID,LOGIC_LOW);
+			break;
+		}
+
+#endif
+}
+
+void LED_off(uint8 LED_ID)
+{
+#if(LED_CONNECTION_TYPE == POSITIVE_LOGIC)
+	switch(LED_ID)
+	{
+	case 1:
+		GPIO_writePin(LED_RED_PORT_ID,LED_RED_PIN_ID,LOGIC_LOW);
+		break;
+	case 2:
+		GPIO_writePin(LED_GREEN_PORT_ID,LED_GREEN_PIN_ID,LOGIC_LOW);
+		break;
+	case 3:
+		GPIO_writePin(LED_BLUE_PORT_ID,LED_BLUE_PIN_ID,LOGIC_LOW);
+		break;
+	}
+#elif(LED_CONNECTION_TYPE == NEGATIVE_LOGIC)
+	switch(LED_ID)
+	{
+	case 1:
+		GPIO_writePin(LED_RED_PORT_ID,LED_RED_PIN_ID,LOGIC_HIGH);
+		break;
+	case 2:
+		GPIO_writePin(LED_GREEN_PORT_ID,LED_GREEN_PIN_ID,LOGIC_HIGH);
+		break;
+	case 3:
+		GPIO_writePin(LED_BLUE_PORT_ID,LED_BLUE_PIN_ID,LOGIC_HIGH);
+		break;
+	}
+#endif
+}

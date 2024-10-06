@@ -1,0 +1,12 @@
+18:46:13 **** Incremental Build of configuration Debug for project Smart Home System ****
+make all 
+Building target: Smart Home System.elf
+Invoking: AVR C Linker
+avr-gcc -Wl,-Map,Smart Home System.map -mmcu=atmega32 -o "Smart Home System.elf"  ./adc.o ./buzzer.o ./dc_motor.o ./flame_sensor.o ./gpio.o ./lcd.o ./ldr_sensor.o ./led.o ./lm35_sensor.o ./main.o ./pwm.o   
+avr-gcc.exe: Home: No such file or directory
+avr-gcc.exe: System.map: No such file or directory
+make: *** [Smart Home System.elf] Error 1
+"make all" terminated with exit code 2. Build might be incomplete.
+
+18:46:13 Build Failed. 1 errors, 0 warnings. (took 211ms)
+

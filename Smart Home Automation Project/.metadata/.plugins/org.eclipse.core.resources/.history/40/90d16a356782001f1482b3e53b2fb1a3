@@ -1,0 +1,29 @@
+/*
+ * main.c
+ *
+ *  Created on: Oct 4, 2024
+ *      Author: Nardin Milad
+ */
+#include "adc.h"
+#include "buzzer.h"
+#include "dc_motor.h"
+#include "flame_sensor.h"
+#include "lcd.h"
+#include "ldr_sensor.h"
+#include "led.h"
+#include "lm35_sensor.h"
+#include "pwm.h"
+#include <avr/io.h>
+#include "std_types.h"
+
+int main()
+{
+	ADC_init();
+	LCD_init();
+	LEDS_init();
+	DcMotor_Init();
+	FlameSensor_init();
+	Buzzer_init();
+	GPIO_setupPinDirection(PORTA_ID,PIN1_ID,PIN_INPUT);
+}
+

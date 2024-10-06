@@ -1,0 +1,12 @@
+/*
+ * ldr_sensor.c
+ *
+ *  Created on: Oct 3, 2024
+ *      Author: Nardin
+ */
+#include <util/delay.h> /* For the delay functions */
+#include <avr/io.h>
+#include "common_macros.h" /* For GET_BIT Macro */
+#include "ldr_sensor.h"
+#include "gpio.h"
+

@@ -1,0 +1,69 @@
+/*
+ * main.c
+ *
+ *  Created on: Oct 4, 2024
+ *      Author: Nardin Milad
+ */
+#include "adc.h"
+#include "buzzer.h"
+#include "dc_motor.h"
+#include "flame_sensor.h"
+#include "lcd.h"
+#include "ldr_sensor.h"
+#include "led.h"
+#include "lm35_sensor.h"
+#include "pwm.h"
+#include "gpio.h"
+#include <avr/io.h>
+#include <util/delay.h>
+
+
+int main()
+{
+
+	LCD_init();
+	LEDS_init();
+	DcMotor_Init();
+	FlameSensor_init();
+	Buzzer_init();
+	GPIO_setupPinDirection(PORTA,PIN0,PIN_INPUT);  // For LDR sensor
+	GPIO_setupPinDirection(PORTA,PIN1,PIN_INPUT);  // For Temperature sensor
+	ADC_init();
+	uint16 Intensity;
+	while(1)
+	{
+		LED_on(LED_RED);
+		LED_on(LED_GREEN);
+		LED_on(LED_BLUE);
+		_delay_ms(500);
+		LED_off(LED_BLUE);
+		Intensity=LDR_getLightIntensity();
+		if(Intensity <= 15)
+		{
+			LED_on(LED_RED);
+			LED_on(LED_GREEN);
+			LED_on(LED_BLUE);
+		}
+		else if(Intensity >= 16 && Intensity <= 50)
+		{
+			LED_on(LED_RED);
+			LED_on(LED_GREEN);
+			LED_off(LED_BLUE);
+		}
+		else if(Intensity >= 51 && Intensity <= 70)
+		{
+			LED_on(LED_RED);
+			LED_off(LED_GREEN);
+			LED_off(LED_BLUE);
+		}
+		else
+		{
+			LED_off(LED_RED);
+			LED_off(LED_GREEN);
+			LED_off(LED_BLUE);
+		}
+
+
+	}
+}
+

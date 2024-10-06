@@ -1,0 +1,42 @@
+/*
+ * ldr_sensor.c
+ *
+ *  Created on: Oct 3, 2024
+ *      Author: Nardin
+ */
+#include <util/delay.h> /* For the delay functions */
+#include <avr/io.h>
+#include "common_macros.h" /* For GET_BIT Macro */
+#include "ldr_sensor.h"
+#include "gpio.h"
+#include "adc.h"
+
+
+/*******************************************************************************
+ *                      Functions Definitions                                  *
+ *******************************************************************************/
+
+// Function to get the light intensity from the LDR sensor
+uint16 LDR_getLightIntensity(void)
+{
+	uint16 adcValue =0;
+	uint16 lightIntensity =0;
+    // Read the ADC value
+	adcValue = ADC_readChannel(LDR_SENSOR_CHANNEL_ID);
+
+    // Convert the ADC value to a voltage
+    float64 sensorVoltage = (adcValue * ADC_REF_VOLT_VALUE) / ADC_MAXIMUM_VALUE;
+
+    // Calculate the light intensity based on the sensor voltage
+    // When the voltage is equal to LDR_SENSOR_MAX_VOLT_VALUE, intensity is 0 (darkness).
+    // When the voltage is 0, intensity is 100 (maximum light).
+    lightIntensity = (uint16)((LDR_SENSOR_MAX_VOLT_VALUE - sensorVoltage) *
+                                     LDR_SENSOR_MAX_LIGHT_INTENSITY / LDR_SENSOR_MAX_VOLT_VALUE);
+
+    // Ensure that the light intensity is within 0-100%
+    if (lightIntensity > LDR_SENSOR_MAX_LIGHT_INTENSITY) {
+        lightIntensity = LDR_SENSOR_MAX_LIGHT_INTENSITY;
+    }
+
+    return lightIntensity;
+}

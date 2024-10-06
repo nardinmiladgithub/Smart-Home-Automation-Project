@@ -1,0 +1,24 @@
+/*
+ * dc_motor.c
+ *
+ *  Created on: Oct 3, 2024
+ *      Author: Nardin
+ */
+#include "common_macros.h" /* For GET_BIT Macro */
+#include "dc_motor.h"
+#include "gpio.h"
+
+
+/*******************************************************************************
+ *                      Functions Definitions                                  *
+ *******************************************************************************/
+
+void DcMotor_Init(void)
+{
+	GPIO_setupPinDirection(INPUT1_PORT_ID,INPUT1_PIN_ID,PIN_OUTPUT);
+}
+
+void DcMotor_Rotate(uint8 DcMotor_State, uint8 speed)
+{
+
+}

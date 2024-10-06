@@ -1,0 +1,124 @@
+/*
+ * main.c
+ *
+ *  Created on: Oct 4, 2024
+ *      Author: Nardin Milad
+ */
+#include "adc.h"
+#include "buzzer.h"
+#include "dc_motor.h"
+#include "flame_sensor.h"
+#include "lcd.h"
+#include "ldr_sensor.h"
+#include "led.h"
+#include "lm35_sensor.h"
+#include "pwm.h"
+#include "gpio.h"
+#include <avr/io.h>
+#include <util/delay.h>
+
+
+int main()
+{
+
+	LCD_init();
+	LEDS_init();
+	DcMotor_Init();
+	FlameSensor_init();
+	Buzzer_init();
+	GPIO_setupPinDirection(PORTA,PIN0,PIN_INPUT);  // For LDR sensor
+	GPIO_setupPinDirection(PORTA,PIN1,PIN_INPUT);  // For Temperature sensor
+	ADC_init();
+	uint16 Intensity;
+	uint8 temp;
+	DcMotor_Rotate(STATE_MOTOR_STOP,0);
+	LCD_moveCursor(0,3);
+	LCD_displayString("FAN IS");
+	LCD_moveCursor(1,0);
+	LCD_displayString("TEMP=");
+	LCD_moveCursor(1,8);
+	LCD_displayString("LDR=   %");
+	while(1)
+	{
+		Intensity=LDR_getLightIntensity();
+		LCD_moveCursor(1,12);
+		if(Intensity >= 100)
+		{
+			LCD_intgerToString((uint32)Intensity);
+		}
+		else
+		{
+			LCD_intgerToString((uint32)Intensity);
+			LCD_displayCharacter(' ');
+		}
+		if(Intensity <= 15)
+		{
+			LED_on(LED_RED);
+			LED_on(LED_GREEN);
+			LED_on(LED_BLUE);
+		}
+		else if(Intensity >= 16 && Intensity <= 50)
+		{
+			LED_on(LED_RED);
+			LED_on(LED_GREEN);
+			LED_off(LED_BLUE);
+		}
+		else if(Intensity >= 51 && Intensity <= 70)
+		{
+			LED_on(LED_RED);
+			LED_off(LED_GREEN);
+			LED_off(LED_BLUE);
+		}
+		else
+		{
+			LED_off(LED_RED);
+			LED_off(LED_GREEN);
+			LED_off(LED_BLUE);
+		}
+
+		temp=LM35_getTemperature();
+		LCD_moveCursor(1,5);
+		if(temp >= 100)
+		{
+			LCD_intgerToString((uint32)temp);
+		}
+		else
+		{
+			LCD_intgerToString((uint32)temp);
+			LCD_displayCharacter(' ');
+		}
+		if(temp >= 40)
+		{
+			DcMotor_Rotate(STATE_MOTOR_CLOCKWISE,100);
+			LCD_moveCursor(0,10);
+			LCD_displayString("ON");
+		}
+		else if(temp >= 35 && temp < 40)
+		{
+			DcMotor_Rotate(STATE_MOTOR_CLOCKWISE,75);
+			LCD_moveCursor(0,10);
+			LCD_displayString("ON");
+		}
+		else if(temp >= 30 && temp < 35)
+		{
+			DcMotor_Rotate(STATE_MOTOR_CLOCKWISE,50);
+			LCD_moveCursor(0,10);
+			LCD_displayString("ON");
+		}
+		else if(temp >= 25 && temp < 30)
+		{
+			DcMotor_Rotate(STATE_MOTOR_CLOCKWISE,25);
+			LCD_moveCursor(0,10);
+			LCD_displayString("ON");
+		}
+		else
+		{
+			DcMotor_Rotate(STATE_MOTOR_STOP,0);
+			LCD_moveCursor(0,10);
+			LCD_displayString("OFF");
+		}
+
+
+	}
+}
+

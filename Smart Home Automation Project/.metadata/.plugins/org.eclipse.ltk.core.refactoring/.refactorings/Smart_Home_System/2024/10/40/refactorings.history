@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;Smart Home System/PWM.c&apos; to &apos;pwm.c&apos;" description="Rename resource &apos;PWM.c&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="PWM.c" name="pwm.c" stamp="1727971733222" updateReferences="true"/>
+</session>

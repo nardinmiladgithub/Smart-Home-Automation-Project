@@ -1,0 +1,46 @@
+/*
+ * dc_motor.c
+ *
+ *  Created on: Oct 3, 2024
+ *      Author: Nardin
+ */
+#include "common_macros.h" /* For GET_BIT Macro */
+#include "dc_motor.h"
+#include "gpio.h"
+#include "pwm.h"
+
+/*******************************************************************************
+ *                      Functions Definitions                                  *
+ *******************************************************************************/
+
+void DcMotor_Init(void)
+{
+	GPIO_setupPinDirection(INPUT1_PORT_ID,INPUT1_PIN_ID,PIN_OUTPUT);
+	GPIO_setupPinDirection(INPUT2_PORT_ID,INPUT2_PIN_ID,PIN_OUTPUT);
+	GPIO_setupPinDirection(ENAPLE1_PORT_ID,ENABLE1_PIN_ID,PIN_OUTPUT);
+	GPIO_writePin(INPUT1_PORT_ID,INPUT1_PIN_ID,LOGIC_LOW);
+	GPIO_writePin(INPUT2_PORT_ID,INPUT2_PIN_ID,LOGIC_LOW);
+}
+
+void DcMotor_Rotate(uint8 DcMotor_State, uint8 speed)
+{
+	// Control the motor's state
+	switch(DcMotor_State)
+	{
+	case 0:    // Stop
+		GPIO_writePin(INPUT1_PORT_ID,INPUT1_PIN_ID,LOGIC_LOW);
+		GPIO_writePin(INPUT2_PORT_ID,INPUT2_PIN_ID,LOGIC_LOW);
+		break;
+	case 1:   // CW
+		GPIO_writePin(INPUT1_PORT_ID,INPUT1_PIN_ID,LOGIC_LOW);
+		GPIO_writePin(INPUT2_PORT_ID,INPUT2_PIN_ID,LOGIC_HIGH);
+		break;
+	case 2:   // ACW
+		GPIO_writePin(INPUT1_PORT_ID,INPUT1_PIN_ID,LOGIC_HIGH);
+		GPIO_writePin(INPUT2_PORT_ID,INPUT2_PIN_ID,LOGIC_LOW);
+		break;
+
+	}
+	// Adjust the speed
+	PWM_Timer0_Start(speed);
+}
