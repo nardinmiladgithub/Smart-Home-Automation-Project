@@ -1,5 +1,8 @@
 # Smart-Home-Automation-Project
 
+![image](https://github.com/user-attachments/assets/80cf9382-074b-402d-a6d7-ac82c86637c3)
+
+
 
 # Project Title:  
 Smart Home Automation Using ATmega32, LCD, Temperature Sensor, LDR Sensor, Flame Sensor 
